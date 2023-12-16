@@ -52,4 +52,44 @@
 </html>
 <script src="./assets/js/jquery-3.6.1.min.js"></script>
 <script src="./assets/js/main.js"></script>
+<script>
+    // Function để lấy ra ngày, tháng, năm theo định dạng "YYYY-MM-DD"
+    function getSelectedDate() {
+        const selectedDateElement = document.querySelector(".calendar-dates li.active");
+
+        if (selectedDateElement) {
+            const day = selectedDateElement.innerText;
+            const formattedMonth = (month + 1).toString().padStart(2, '0'); // Thêm '0' phía trước nếu tháng là một số có một chữ số
+            const formattedYear = year.toString();
+
+            const formattedDate = `${formattedYear}-${formattedMonth}-${day}`;
+            // console.log("Selected Date:", formattedDate);
+            return formattedDate;
+        } else {
+            // console.log("No date selected");
+            return null;
+        }
+    }
+
+
+    $("#myButton").click(function (e) {
+        e.preventDefault();
+        const selectedDate = getSelectedDate();
+        console.log(selectedDate);
+        $.ajax({
+            url: "GetTableLotteryResultController",
+            type: "get",
+            data: {
+                selectedDate: selectedDate
+            },
+            success: function (data) {
+                $(".table-lottery").html(data)
+            }, error: function (data) {
+                alert("Hiện ngày này chưa có dữ liệu");``
+            }
+        })
+
+    })
+</script>
+
 
